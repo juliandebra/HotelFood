@@ -1,25 +1,102 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react'
+
+//Router
+import { Routes, Route, Navigate } from "react-router-dom";
+import  Home  from './Components/Home/Home';
+import  Login  from './Components/Login/Login';
+import History from './Components/History/History';
+import PageNotFound from './PageNotFound';
+
+//Axios
+import Axios from 'axios';
+
+// styled components
+import styled from 'styled-components';
+
+//Sweet Alert
+import swal from 'sweetalert';
 
 function App() {
+
+  const apiKey = '68d481a0fbc340308fbf934f836ee8c6';
+
+  const token = localStorage.getItem('token');
+  const [serveMenu, setServeMenu] = useState([]);
+  const [history, setHistory] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [search, setSearch] = useState('notfound');
+  const [number, setNumber] = useState(3);
+  const searchApi = `https://api.spoonacular.com/food/search?apiKey=${apiKey}&query=${search}&number=${number}`;
+
+
+  useEffect(() => {  
+    const fetchData = async () => {
+      try{
+        await Axios.get(searchApi)
+        .then((response) => {
+          setCategories(response.data);
+        })  
+      }catch(error){
+        console.log(error);
+        swal("Error", "Something went wrong", "error");
+      } 
+    }
+    fetchData();
+  }, [searchApi]);
+
+  const handleChange = (e) => {
+    if(e.target.value.length > 2) {
+      setSearch(e.target.value);
+    }
+  }
+
+  const handleShowMore = () => {
+    setNumber(number + 3);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppStyle>
+      
+      <Routes>
+        
+        <Route exact path="/" 
+            element={<Login token={token} />} />  
+        
+        { token ?
+          <Route path="/Home" element={<Home 
+            apiKey={apiKey}
+            categories={categories} 
+            setSearch={setSearch} 
+            search={search} 
+            handleChange={handleChange} 
+            handleShowMore={handleShowMore}
+            setServeMenu={setServeMenu}
+            setHistory={setHistory}
+            />} 
+        /> 
+       : <Route
+            path="/Home"
+            element={<Navigate to="/" />}/> } 
+
+        { token ? 
+        <Route path="/History" element={<History serveMenu={serveMenu}  history={history} />}/>
+        : <Route
+            path="/History"
+            element={<Navigate to="/" />}/> }
+
+        <Route path="*" element={<PageNotFound />} />
+
+      </Routes>
+    </AppStyle>
   );
 }
 
 export default App;
+    
+const AppStyle = styled.div`
+  font-family: 'Dongle', sans-serif;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+`
