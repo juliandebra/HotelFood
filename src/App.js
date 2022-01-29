@@ -21,11 +21,9 @@ function App() {
   const apiKey = '68d481a0fbc340308fbf934f836ee8c6';
 
   const token = localStorage.getItem('token');
-  const [serveMenu, setServeMenu] = useState([]);
-  const [history, setHistory] = useState(false);
   const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState('notfound');
-  const [number, setNumber] = useState(3);
+  const [number, setNumber] = useState(10);
   const searchApi = `https://api.spoonacular.com/food/search?apiKey=${apiKey}&query=${search}&number=${number}`;
 
 
@@ -51,7 +49,7 @@ function App() {
   }
 
   const handleShowMore = () => {
-    setNumber(number + 3);
+    setNumber(number + 10);
   }
 
   return (
@@ -70,8 +68,6 @@ function App() {
             search={search} 
             handleChange={handleChange} 
             handleShowMore={handleShowMore}
-            setServeMenu={setServeMenu}
-            setHistory={setHistory}
             />} 
         /> 
        : <Route
@@ -79,7 +75,7 @@ function App() {
             element={<Navigate to="/" />}/> } 
 
         { token ? 
-        <Route path="/History" element={<History serveMenu={serveMenu}  history={history} />}/>
+        <Route path="/History" element={<History   />}/>
         : <Route
             path="/History"
             element={<Navigate to="/" />}/> }

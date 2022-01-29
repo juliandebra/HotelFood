@@ -126,7 +126,6 @@ export const Home = (props) => {
             setMenuTwo(false);
             setMenuThree(false);
             setMenuFour(false);
-            
         } else {
             setServeModalAlert(true);
         }
@@ -272,7 +271,10 @@ export const Home = (props) => {
                                         <TdBody onClick={() => handleItemClick(d.id)}>{d.name}</TdBody> 
                                     </TrBody>
                                 )}
-                                <MoreRecipes onClick={() => props.handleShowMore()}>Get More Recipes</MoreRecipes> 
+                                { props.search.length > 2 ? 
+                                <MoreRecipes onClick={() => props.handleShowMore()}>Get More Recipes</MoreRecipes>
+                                : null}
+                                 
                             </Tbody>
 
                         </Table>
