@@ -5,7 +5,7 @@
 -Sweet Alert\
 -Formik\
 -React-Router-Dom v6\
--Font Awesome\
+-Font Awesome
 
 Alerta de error\
 El programa funciona bien hasta que actualizas el Home y surge el siguiente error:\
@@ -25,13 +25,13 @@ compartan.
 
 Error Alert\
 The program wors fine until you refresh the Home Page and the next error occurs: \
-"Cannot read properties of undefined (reading '0')" \
+"Cannot read properties of undefined (reading '0')" 
 
 The problem get fixed doing the next steps: \
 -Comment lines 43 and 270-274,\
 -Save the file,\
 -Uncomment the lines mentioned in the first step,\
--Save the file\
+-Save the file
 
 # Getting Started with Create React App
 
