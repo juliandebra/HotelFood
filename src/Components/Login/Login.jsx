@@ -43,8 +43,8 @@ const Login = (props) => {
 
     const formik = useFormik({ 
         initialValues:{
-            email:'',
-            password: ''
+            email:'challenge@alchemy.org',
+            password: 'react'
         },
         validate, 
         onSubmit: values => {
